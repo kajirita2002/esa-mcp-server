@@ -1,6 +1,6 @@
 {
   "name": "@kajirita2002/esa-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for interacting with esa API",
   "license": "MIT",
   "author": "kajirita2002",
@@ -19,6 +19,9 @@
     "prepare": "npm run build",
     "watch": "tsc --watch",
     "start": "node dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.0.1"
