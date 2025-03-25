@@ -8,7 +8,7 @@ import {
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
 
-// esaツール用の引数型定義
+// Argument type definitions for esa tools
 interface ListPostsArgs {
   q?: string;
   include?: string;
@@ -79,36 +79,36 @@ interface GetMemberArgs {
 // ツール定義
 const listPostsTool: Tool = {
   name: "esa_list_posts",
-  description: "チーム内の記事リストを取得します（ページネーション対応）",
+  description: "Get a list of posts in the team (with pagination support)",
   inputSchema: {
     type: "object",
     properties: {
       q: {
         type: "string",
-        description: "検索クエリ（詳細は esa API ドキュメント参照）",
+        description: "Search query (see esa API documentation for details)",
       },
       include: {
         type: "string",
-        description: "レスポンスに含める関連データ (例: 'comments,stargazers')",
+        description: "Related data to include in the response (e.g. 'comments,stargazers')",
       },
       sort: {
         type: "string",
-        description: "ソート方法 (updated, created, number, stars, watches, comments, best_match)",
+        description: "Sort method (updated, created, number, stars, watches, comments, best_match)",
         default: "updated",
       },
       order: {
         type: "string",
-        description: "ソート順 (desc, asc)",
+        description: "Sort order (desc, asc)",
         default: "desc",
       },
       per_page: {
         type: "number",
-        description: "1ページあたりの結果数 (デフォルト: 20, 最大: 100)",
+        description: "Number of results per page (default: 20, max: 100)",
         default: 20,
       },
       page: {
         type: "number",
-        description: "取得するページ番号",
+        description: "Page number to retrieve",
         default: 1,
       },
     },
@@ -117,17 +117,17 @@ const listPostsTool: Tool = {
 
 const getPostTool: Tool = {
   name: "esa_get_post",
-  description: "特定の記事の詳細情報を取得します",
+  description: "Get detailed information about a specific post",
   inputSchema: {
     type: "object",
     properties: {
       post_number: {
         type: "number",
-        description: "取得する記事番号",
+        description: "Post number to retrieve",
       },
       include: {
         type: "string",
-        description: "レスポンスに含める関連データ (例: 'comments,stargazers')",
+        description: "Related data to include in the response (e.g. 'comments,stargazers')",
       },
     },
     required: ["post_number"],
@@ -136,43 +136,43 @@ const getPostTool: Tool = {
 
 const createPostTool: Tool = {
   name: "esa_create_post",
-  description: "新しい記事を作成します",
+  description: "Create a new post",
   inputSchema: {
     type: "object",
     properties: {
       name: {
         type: "string",
-        description: "記事のタイトル",
+        description: "Post title",
       },
       body_md: {
         type: "string",
-        description: "記事の本文 (Markdown形式)",
+        description: "Post body (Markdown format)",
       },
       tags: {
         type: "array",
         items: { type: "string" },
-        description: "記事に付けるタグのリスト",
+        description: "List of tags for the post",
       },
       category: {
         type: "string",
-        description: "記事のカテゴリ",
+        description: "Post category",
       },
       wip: {
         type: "boolean",
-        description: "WIP (作業中) としてマークするかどうか",
+        description: "Whether to mark as WIP (Work In Progress)",
         default: true,
       },
       message: {
         type: "string",
-        description: "変更メッセージ",
+        description: "Change message",
       },
       user: {
         type: "string",
-        description: "投稿者のscreen_name（チームオーナーのみ指定可能）",
+        description: "Poster's screen_name (only team owners can specify)",
       },
       template_post_id: {
         type: "number",
-        description: "テンプレートとして使用する記事のID",
+        description: "ID of the post to use as a template",
       },
     },
     required: ["name"],
@@ -181,46 +181,46 @@ const createPostTool: Tool = {
 
 const updatePostTool: Tool = {
   name: "esa_update_post",
-  description: "既存の記事を更新します",
+  description: "Update an existing post",
   inputSchema: {
     type: "object",
     properties: {
       post_number: {
         type: "number",
-        description: "更新する記事番号",
+        description: "Post number to update",
       },
       name: {
         type: "string",
-        description: "記事の新しいタイトル",
+        description: "New title for the post",
       },
       body_md: {
         type: "string",
-        description: "記事の新しい本文 (Markdown形式)",
+        description: "New body for the post (Markdown format)",
       },
       tags: {
         type: "array",
         items: { type: "string" },
-        description: "記事の新しいタグのリスト",
+        description: "New list of tags for the post",
       },
       category: {
         type: "string",
-        description: "記事の新しいカテゴリ",
+        description: "New category for the post",
       },
       wip: {
         type: "boolean",
-        description: "WIP (作業中) としてマークするかどうか",
+        description: "Whether to mark as WIP (Work In Progress)",
       },
       message: {
         type: "string",
-        description: "変更メッセージ",
+        description: "Change message",
       },
       created_by: {
         type: "string",
-        description: "投稿者のscreen_name（チームオーナーのみ指定可能）",
+        description: "Poster's screen_name (only team owners can specify)",
       },
       original_revision: {
         type: "string",
-        description: "更新の基準となるリビジョン",
+        description: "Revision to base the update on",
       },
     },
     required: ["post_number"],
@@ -229,13 +229,13 @@ const updatePostTool: Tool = {
 
 const deletePostTool: Tool = {
   name: "esa_delete_post",
-  description: "記事を削除します",
+  description: "Delete a post",
   inputSchema: {
     type: "object",
     properties: {
       post_number: {
         type: "number",
-        description: "削除する記事番号",
+        description: "Post number to delete",
       },
     },
     required: ["post_number"],
@@ -244,22 +244,22 @@ const deletePostTool: Tool = {
 
 const listCommentsTool: Tool = {
   name: "esa_list_comments",
-  description: "記事のコメント一覧を取得します",
+  description: "Get a list of comments for a post",
   inputSchema: {
     type: "object",
     properties: {
       post_number: {
         type: "number",
-        description: "コメントを取得する記事番号",
+        description: "Post number to get comments for",
       },
       page: {
         type: "number",
-        description: "取得するページ番号",
+        description: "Page number to retrieve",
         default: 1,
       },
       per_page: {
         type: "number",
-        description: "1ページあたりの結果数 (デフォルト: 20, 最大: 100)",
+        description: "Number of results per page (default: 20, max: 100)",
         default: 20,
       },
     },
@@ -269,13 +269,13 @@ const listCommentsTool: Tool = {
 
 const getCommentTool: Tool = {
   name: "esa_get_comment",
-  description: "特定のコメントを取得します",
+  description: "Get a specific comment",
   inputSchema: {
     type: "object",
     properties: {
       comment_id: {
         type: "number",
-        description: "取得するコメントのID",
+        description: "ID of the comment to retrieve",
       },
       include: {
         type: "string",
@@ -288,21 +288,21 @@ const getCommentTool: Tool = {
 
 const createCommentTool: Tool = {
   name: "esa_create_comment",
-  description: "記事にコメントを投稿します",
+  description: "Post a comment to an article",
   inputSchema: {
     type: "object",
     properties: {
       post_number: {
         type: "number",
-        description: "コメントを投稿する記事番号",
+        description: "Post number to comment on",
       },
       body_md: {
         type: "string",
-        description: "コメントの本文 (Markdown形式)",
+        description: "Comment body (Markdown format)",
       },
       user: {
         type: "string",
-        description: "投稿者のscreen_name（チームオーナーのみ指定可能）",
+        description: "Poster's screen_name (only team owners can specify)",
       },
     },
     required: ["post_number", "body_md"],
@@ -311,18 +311,18 @@ const createCommentTool: Tool = {
 
 const getMembersTool: Tool = {
   name: "esa_get_members",
-  description: "チームのメンバー一覧を取得します",
+  description: "Get a list of team members",
   inputSchema: {
     type: "object",
     properties: {
       page: {
         type: "number",
-        description: "取得するページ番号",
+        description: "Page number to retrieve",
         default: 1,
       },
       per_page: {
         type: "number",
-        description: "1ページあたりの結果数 (デフォルト: 20, 最大: 100)",
+        description: "Number of results per page (default: 20, max: 100)",
         default: 20,
       },
     },
@@ -331,13 +331,13 @@ const getMembersTool: Tool = {
 
 const getMemberTool: Tool = {
   name: "esa_get_member",
-  description: "特定のチームメンバーの情報を取得します",
+  description: "Get information about a specific team member",
   inputSchema: {
     type: "object",
     properties: {
       screen_name_or_email: {
         type: "string",
-        description: "取得するメンバーのスクリーンネームまたはメールアドレス",
+        description: "Screen name or email of the member to retrieve",
       },
     },
     required: ["screen_name_or_email"],
@@ -479,12 +479,12 @@ async function main() {
 
   if (!accessToken || !teamName) {
     console.error(
-      "ESA_ACCESS_TOKEN と ESA_TEAM 環境変数を設定してください",
+      "Please set the ESA_ACCESS_TOKEN and ESA_TEAM environment variables",
     );
     process.exit(1);
   }
 
-  console.error("esa MCP Server 起動中...");
+  console.error("Starting esa MCP Server...");
   const server = new Server(
     {
       name: "esa MCP Server",
@@ -502,10 +502,10 @@ async function main() {
   server.setRequestHandler(
     CallToolRequestSchema,
     async (request: CallToolRequest) => {
-      console.error("CallToolRequest 受信:", request);
+      console.error("CallToolRequest received:", request);
       try {
         if (!request.params.arguments) {
-          throw new Error("引数がありません");
+          throw new Error("No arguments provided");
         }
 
         switch (request.params.name) {
@@ -520,7 +520,7 @@ async function main() {
           case "esa_get_post": {
             const args = request.params.arguments as unknown as GetPostArgs;
             if (!args.post_number) {
-              throw new Error("post_number は必須です");
+              throw new Error("post_number is required");
             }
             const response = await esaClient.getPost(args.post_number, args.include);
             return {
@@ -531,7 +531,7 @@ async function main() {
           case "esa_create_post": {
             const args = request.params.arguments as unknown as CreatePostArgs;
             if (!args.name) {
-              throw new Error("name は必須です");
+              throw new Error("name is required");
             }
             const response = await esaClient.createPost(args);
             return {
@@ -542,7 +542,7 @@ async function main() {
           case "esa_update_post": {
             const args = request.params.arguments as unknown as UpdatePostArgs;
             if (!args.post_number) {
-              throw new Error("post_number は必須です");
+              throw new Error("post_number is required");
             }
             const { post_number, ...postData } = args;
             const response = await esaClient.updatePost(post_number, postData);
@@ -554,7 +554,7 @@ async function main() {
           case "esa_delete_post": {
             const args = request.params.arguments as unknown as DeletePostArgs;
             if (!args.post_number) {
-              throw new Error("post_number は必須です");
+              throw new Error("post_number is required");
             }
             const response = await esaClient.deletePost(args.post_number);
             return {
@@ -565,7 +565,7 @@ async function main() {
           case "esa_list_comments": {
             const args = request.params.arguments as unknown as ListCommentsArgs;
             if (!args.post_number) {
-              throw new Error("post_number は必須です");
+              throw new Error("post_number is required");
             }
             const response = await esaClient.listComments(
               args.post_number,
@@ -580,7 +580,7 @@ async function main() {
           case "esa_get_comment": {
             const args = request.params.arguments as unknown as GetCommentArgs;
             if (!args.comment_id) {
-              throw new Error("comment_id は必須です");
+              throw new Error("comment_id is required");
             }
             const response = await esaClient.getComment(args.comment_id, args.include);
             return {
@@ -591,7 +591,7 @@ async function main() {
           case "esa_create_comment": {
             const args = request.params.arguments as unknown as CreateCommentArgs;
             if (!args.post_number || !args.body_md) {
-              throw new Error("post_number と body_md は必須です");
+              throw new Error("post_number and body_md are required");
             }
             const response = await esaClient.createComment(
               args.post_number,
@@ -614,7 +614,7 @@ async function main() {
           case "esa_get_member": {
             const args = request.params.arguments as unknown as GetMemberArgs;
             if (!args.screen_name_or_email) {
-              throw new Error("screen_name_or_email は必須です");
+              throw new Error("screen_name_or_email is required");
             }
             const response = await esaClient.getMember(args.screen_name_or_email);
             return {
@@ -623,10 +623,10 @@ async function main() {
           }
 
           default:
-            throw new Error(`不明なツール: ${request.params.name}`);
+            throw new Error(`Unknown tool: ${request.params.name}`);
         }
       } catch (error) {
-        console.error("ツール実行エラー:", error);
+        console.error("Tool execution error:", error);
         return {
           content: [
             {
@@ -642,7 +642,7 @@ async function main() {
   );
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
-    console.error("ListToolsRequest 受信");
+    console.error("ListToolsRequest received");
     return {
       tools: [
         listPostsTool,
@@ -660,13 +660,13 @@ async function main() {
   });
 
   const transport = new StdioServerTransport();
-  console.error("サーバーをトランスポートに接続中...");
+  console.error("Connecting server to transport...");
   await server.connect(transport);
 
-  console.error("esa MCP Server が stdio で実行中");
+  console.error("esa MCP Server running on stdio");
 }
 
 main().catch((error) => {
-  console.error("main()で致命的なエラー:", error);
+  console.error("Fatal error in main():", error);
   process.exit(1);
 });
