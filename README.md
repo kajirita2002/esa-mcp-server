@@ -1,174 +1,189 @@
 # esa MCP Server
 
-## 概要
+## Overview
 
-このサーバーは、[Model Context Protocol (MCP)](https://github.com/anthropics/anthropic-cookbook/tree/main/model_context_protocol)を使用して、Claude AIが[esa API](https://docs.esa.io/posts/102)と対話できるようにするためのインターフェースです。
+This server is an interface that uses the [Model Context Protocol (MCP)](https://github.com/anthropics/anthropic-cookbook/tree/main/model_context_protocol) to enable Claude AI to interact with the [esa API](https://docs.esa.io/posts/102).
 
-このMCPサーバーによって、Claude AIはesaのドキュメントの検索、作成、更新などの操作を行えるようになります。
+With this MCP server, Claude AI can perform operations such as searching, creating, and updating esa documents.
 
-## リポジトリについて
+## About the Repository
 
-このリポジトリは、esa MCPサーバーの独立した実装を提供します。Claude AIとesaを統合し、ドキュメント管理を効率化します。
+This repository provides a standalone implementation of the esa MCP server. It integrates Claude AI with esa to streamline document management.
 
-## セットアップ
+## Setup
 
-### 前提条件
+### Prerequisites
 
-- Node.js 18以上
-- esaのAPIアクセストークン
-- esaのチーム名
+- Node.js 18 or higher
+- esa API access token
+- esa team name
 
-### インストール
+### Installation
 
 ```bash
-# 必要なパッケージをインストール
+# Install required packages
 npm install
 ```
 
-### 環境変数の設定
+### Setting Environment Variables
 
 ```bash
-# 環境変数の設定
+# Set environment variables
 export ESA_ACCESS_TOKEN="your_esa_access_token"
 export ESA_TEAM="your_team_name"
 ```
 
-### サーバーの起動
+### MCP Configuration Example
+
+If you're using this MCP server add the following configuration to your `mcp_config.json` file:
+
+```json
+"esa": {
+  "command": "npx",
+  "args": ["-y", "--package", "./path/to/esa-mcp-server", "esa-mcp-server"],
+  "env": {
+    "ESA_ACCESS_TOKEN": "your_esa_access_token",
+    "ESA_TEAM": "your_team_name"
+  }
+}
+```
+
+### Starting the Server
 
 ```bash
-# サーバーを起動
+# Start the server
 npm start
 ```
 
-## 利用可能なツール
+## Available Tools
 
-このMCPサーバーは以下のツールを提供します：
+This MCP server provides the following tools:
 
-### 記事関連
+### Post Related
 
 1. `esa_list_posts`
-   - チーム内の記事リストを取得します
-   - 入力:
-     - `q` (string, optional): 検索クエリ
-     - `include` (string, optional): レスポンスに含める関連データ (例: 'comments,stargazers')
-     - `sort` (string, optional): ソート方法 (updated, created, number, stars, watches, comments, best_match)
-     - `order` (string, optional): ソート順 (desc, asc)
-     - `per_page` (number, optional): 1ページあたりの結果数 (最大: 100)
-     - `page` (number, optional): 取得するページ番号
+   - Get a list of posts in the team
+   - Input:
+     - `q` (string, optional): Search query
+     - `include` (string, optional): Related data to include in the response (e.g. 'comments,stargazers')
+     - `sort` (string, optional): Sort method (updated, created, number, stars, watches, comments, best_match)
+     - `order` (string, optional): Sort order (desc, asc)
+     - `per_page` (number, optional): Number of results per page (max: 100)
+     - `page` (number, optional): Page number to retrieve
 
 2. `esa_get_post`
-   - 特定の記事の詳細情報を取得します
-   - 入力:
-     - `post_number` (number, required): 取得する記事番号
-     - `include` (string, optional): レスポンスに含める関連データ (例: 'comments,stargazers')
+   - Get detailed information about a specific post
+   - Input:
+     - `post_number` (number, required): Post number to retrieve
+     - `include` (string, optional): Related data to include in the response (e.g. 'comments,stargazers')
 
 3. `esa_create_post`
-   - 新しい記事を作成します
-   - 入力:
-     - `name` (string, required): 記事のタイトル
-     - `body_md` (string, optional): 記事の本文 (Markdown形式)
-     - `tags` (array of string, optional): 記事に付けるタグのリスト
-     - `category` (string, optional): 記事のカテゴリ
-     - `wip` (boolean, optional, default: true): WIP (作業中) としてマークするかどうか
-     - `message` (string, optional): 変更メッセージ
-     - `user` (string, optional): 投稿者のscreen_name (チームオーナーのみ指定可能)
-     - `template_post_id` (number, optional): テンプレートとして使用する記事のID
+   - Create a new post
+   - Input:
+     - `name` (string, required): Post title
+     - `body_md` (string, optional): Post body (Markdown format)
+     - `tags` (array of string, optional): List of tags for the post
+     - `category` (string, optional): Post category
+     - `wip` (boolean, optional, default: true): Whether to mark as WIP (Work In Progress)
+     - `message` (string, optional): Change message
+     - `user` (string, optional): Poster's screen_name (only team owners can specify)
+     - `template_post_id` (number, optional): ID of the post to use as a template
 
 4. `esa_update_post`
-   - 既存の記事を更新します
-   - 入力:
-     - `post_number` (number, required): 更新する記事番号
-     - `name` (string, optional): 記事の新しいタイトル
-     - `body_md` (string, optional): 記事の新しい本文 (Markdown形式)
-     - `tags` (array of string, optional): 記事の新しいタグのリスト
-     - `category` (string, optional): 記事の新しいカテゴリ
-     - `wip` (boolean, optional): WIP (作業中) としてマークするかどうか
-     - `message` (string, optional): 変更メッセージ
-     - `created_by` (string, optional): 投稿者のscreen_name (チームオーナーのみ指定可能)
-     - `original_revision` (string, optional): 更新の基準となるリビジョン
+   - Update an existing post
+   - Input:
+     - `post_number` (number, required): Post number to update
+     - `name` (string, optional): New title for the post
+     - `body_md` (string, optional): New body for the post (Markdown format)
+     - `tags` (array of string, optional): New list of tags for the post
+     - `category` (string, optional): New category for the post
+     - `wip` (boolean, optional): Whether to mark as WIP (Work In Progress)
+     - `message` (string, optional): Change message
+     - `created_by` (string, optional): Poster's screen_name (only team owners can specify)
+     - `original_revision` (string, optional): Revision to base the update on
 
 5. `esa_delete_post`
-   - 記事を削除します
-   - 入力:
-     - `post_number` (number, required): 削除する記事番号
+   - Delete a post
+   - Input:
+     - `post_number` (number, required): Post number to delete
 
-### コメント関連
+### Comment Related
 
 1. `esa_list_comments`
-   - 記事のコメント一覧を取得します
-   - 入力:
-     - `post_number` (number, required): コメントを取得する記事番号
-     - `page` (number, optional): 取得するページ番号
-     - `per_page` (number, optional): 1ページあたりの結果数 (最大: 100)
+   - Get a list of comments for a post
+   - Input:
+     - `post_number` (number, required): Post number to get comments for
+     - `page` (number, optional): Page number to retrieve
+     - `per_page` (number, optional): Number of results per page (max: 100)
 
 2. `esa_get_comment`
-   - 特定のコメントを取得します
-   - 入力:
-     - `comment_id` (number, required): 取得するコメントのID
-     - `include` (string, optional): レスポンスに含める関連データ (例: 'stargazers')
+   - Get a specific comment
+   - Input:
+     - `comment_id` (number, required): ID of the comment to retrieve
+     - `include` (string, optional): Related data to include in the response (e.g. 'stargazers')
 
 3. `esa_create_comment`
-   - 記事にコメントを投稿します
-   - 入力:
-     - `post_number` (number, required): コメントを投稿する記事番号
-     - `body_md` (string, required): コメントの本文 (Markdown形式)
-     - `user` (string, optional): 投稿者のscreen_name (チームオーナーのみ指定可能)
+   - Post a comment to an article
+   - Input:
+     - `post_number` (number, required): Post number to comment on
+     - `body_md` (string, required): Comment body (Markdown format)
+     - `user` (string, optional): Poster's screen_name (only team owners can specify)
 
-### メンバー関連
+### Member Related
 
 1. `esa_get_members`
-   - チームのメンバー一覧を取得します
-   - 入力:
-     - `page` (number, optional): 取得するページ番号
-     - `per_page` (number, optional): 1ページあたりの結果数 (最大: 100)
+   - Get a list of team members
+   - Input:
+     - `page` (number, optional): Page number to retrieve
+     - `per_page` (number, optional): Number of results per page (max: 100)
 
 2. `esa_get_member`
-   - 特定のチームメンバーの情報を取得します
-   - 入力:
-     - `screen_name_or_email` (string, required): 取得するメンバーのスクリーンネームまたはメールアドレス
+   - Get information about a specific team member
+   - Input:
+     - `screen_name_or_email` (string, required): Screen name or email of the member to retrieve
 
-## 使用例
+## Usage Example
 
-以下はClaudeがこのMCPサーバーを使ってesaの記事を作成する例です：
+Here's an example of Claude using this MCP server to create an esa post:
 
 ```
-【Claude】esaに新しい記事を作成してください。タイトルは「プロジェクトXの進捗報告」、本文には「# 今週の進捗\n\n- 機能Aの実装完了\n- 機能Bのテスト開始\n\n## 次週の予定\n\n- 機能Cの実装開始」という内容を含めてください。
+[Claude] Please create a new post in esa. The title should be "Project X Progress Report" and the body should include "# This Week's Progress\n\n- Implementation of Feature A completed\n- Testing of Feature B started\n\n## Next Week's Plan\n\n- Start implementation of Feature C".
 
-【MCP Server】esa_create_post ツールを使用して新しい記事を作成します。
+[MCP Server] Using the esa_create_post tool to create a new post.
 
-【実行結果】
+[Result]
 {
   "number": 123,
-  "name": "プロジェクトXの進捗報告",
-  "body_md": "# 今週の進捗\n\n- 機能Aの実装完了\n- 機能Bのテスト開始\n\n## 次週の予定\n\n- 機能Cの実装開始",
+  "name": "Project X Progress Report",
+  "body_md": "# This Week's Progress\n\n- Implementation of Feature A completed\n- Testing of Feature B started\n\n## Next Week's Plan\n\n- Start implementation of Feature C",
   "wip": false,
   "created_at": "2023-06-01T12:34:56+09:00",
   "updated_at": "2023-06-01T12:34:56+09:00",
   "url": "https://your-team.esa.io/posts/123"
 }
 
-【Claude】記事の作成が完了しました。記事番号は123で、以下のURLからアクセスできます：
+[Claude] The post has been created successfully. The post number is 123, and you can access it at the following URL:
 https://your-team.esa.io/posts/123
 ```
 
-## トラブルシューティング
+## Troubleshooting
 
-### アクセストークンの問題
+### Access Token Issues
 
 ```
 Error: Request failed with status code 401
 ```
 
-このエラーが表示される場合、esaのアクセストークンが無効であるか期限切れの可能性があります。esaの設定画面で新しいアクセストークンを発行し、環境変数を更新してください。
+If you see this error, your esa access token may be invalid or expired. Generate a new access token from the esa settings screen and update your environment variable.
 
-### 権限の問題
+### Permission Issues
 
 ```
 Error: Request failed with status code 403
 ```
 
-このエラーが表示される場合、現在のアクセストークンに必要な権限がありません。esaの設定画面でアクセストークンの権限を確認し、必要に応じて新しいトークンを発行してください。
+If you see this error, the current access token doesn't have the necessary permissions. Check the permissions for your access token in the esa settings screen and issue a new token if needed.
 
-## ライセンス
+## License
 
-MITライセンスの下で提供されています。
+Provided under the MIT License.
