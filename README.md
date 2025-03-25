@@ -8,6 +8,10 @@ This server is an interface that uses the [Model Context Protocol (MCP)](https:/
 
 With this MCP server, Claude AI can perform operations such as searching, creating, and updating esa documents.
 
+<a href="https://glama.ai/mcp/servers/@kajirita2002/esa-mcp-server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@kajirita2002/esa-mcp-server/badge" alt="esa Server MCP server" />
+</a>
+
 ## About the Repository
 
 This repository provides a standalone implementation of the esa MCP server. It integrates Claude AI with esa to streamline document management.
