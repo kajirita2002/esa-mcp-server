@@ -21,8 +21,11 @@ This repository provides a standalone implementation of the esa MCP server. It i
 ### Installation
 
 ```bash
-# Install required packages
-npm install
+# Install globally
+npm install -g @kajirita2002/esa-mcp-server
+
+# Or use directly with npx
+npx @kajirita2002/esa-mcp-server
 ```
 
 ### Setting Environment Variables
@@ -35,12 +38,12 @@ export ESA_TEAM="your_team_name"
 
 ### MCP Configuration Example
 
-If you're using this MCP server add the following configuration to your `mcp_config.json` file:
+If you're using this MCP server, add the following configuration to your `mcp_config.json` file:
 
 ```json
 "esa": {
   "command": "npx",
-  "args": ["-y", "--package", "./path/to/esa-mcp-server", "esa-mcp-server"],
+  "args": ["-y", "@kajirita2002/esa-mcp-server"],
   "env": {
     "ESA_ACCESS_TOKEN": "your_esa_access_token",
     "ESA_TEAM": "your_team_name"
