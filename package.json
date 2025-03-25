@@ -1,0 +1,31 @@
+{
+  "name": "esa-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for interacting with esa API",
+  "license": "MIT",
+  "author": "kajirita2002",
+  "homepage": "https://github.com/kajirita2002/esa-mcp-server",
+  "bugs": "https://github.com/kajirita2002/esa-mcp-server/issues",
+  "type": "module",
+  "bin": {
+    "esa-mcp-server": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "shx": "^0.3.4",
+    "typescript": "^5.6.2"
+  }
+}
