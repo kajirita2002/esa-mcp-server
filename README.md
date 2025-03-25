@@ -1,5 +1,7 @@
 # esa MCP Server
 
+*Read this in [Japanese](README.ja.md)*
+
 ## Overview
 
 This server is an interface that uses the [Model Context Protocol (MCP)](https://github.com/anthropics/anthropic-cookbook/tree/main/model_context_protocol) to enable Claude AI to interact with the [esa API](https://docs.esa.io/posts/102).
