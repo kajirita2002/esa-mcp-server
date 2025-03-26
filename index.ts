@@ -46,10 +46,6 @@ interface UpdatePostArgs {
   original_revision?: string;
 }
 
-interface DeletePostArgs {
-  post_number: number;
-}
-
 interface ListCommentsArgs {
   post_number: number;
   page?: number;
@@ -227,21 +223,6 @@ const updatePostTool: Tool = {
   },
 };
 
-const deletePostTool: Tool = {
-  name: "esa_delete_post",
-  description: "Delete a post",
-  inputSchema: {
-    type: "object",
-    properties: {
-      post_number: {
-        type: "number",
-        description: "Post number to delete",
-      },
-    },
-    required: ["post_number"],
-  },
-};
-
 const listCommentsTool: Tool = {
   name: "esa_list_comments",
   description: "Get a list of comments for a post",
@@ -405,16 +386,6 @@ class EsaClient {
     return response.json();
   }
 
-  async deletePost(post_number: number): Promise<any> {
-    const url = `${this.baseUrl}/posts/${post_number}`;
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: this.headers,
-    });
-
-    return response.status === 204 ? { success: true } : response.json();
-  }
-
   async listComments(post_number: number, page?: number, per_page?: number): Promise<any> {
     const params = new URLSearchParams();
     
@@ -551,17 +522,6 @@ async function main() {
             };
           }
 
-          case "esa_delete_post": {
-            const args = request.params.arguments as unknown as DeletePostArgs;
-            if (!args.post_number) {
-              throw new Error("post_number is required");
-            }
-            const response = await esaClient.deletePost(args.post_number);
-            return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
-            };
-          }
-
           case "esa_list_comments": {
             const args = request.params.arguments as unknown as ListCommentsArgs;
             if (!args.post_number) {
@@ -649,7 +609,6 @@ async function main() {
         getPostTool,
         createPostTool,
         updatePostTool,
-        deletePostTool,
         listCommentsTool,
         getCommentTool,
         createCommentTool,
