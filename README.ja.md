@@ -6,6 +6,10 @@
 
 このMCPサーバーによって、Claude AIはesaのドキュメントの検索、作成、更新などの操作を行えるようになります。
 
+### 特別な機能
+
+- **自動署名**: 作成されるすべての投稿に自動的に「by esa-mcp-server」という署名を追加します
+
 ## リポジトリについて
 
 このリポジトリは、esa MCPサーバーの独立した実装を提供します。Claude AIとesaを統合し、ドキュメント管理を効率化します。
@@ -21,8 +25,11 @@
 ### インストール
 
 ```bash
-# 必要なパッケージをインストール
-npm install
+# グローバルにインストール
+npm install -g @kajirita2002/esa-mcp-server-auto-signature
+
+# または直接npxで使用
+npx @kajirita2002/esa-mcp-server-auto-signature
 ```
 
 ### 環境変数の設定
@@ -31,6 +38,21 @@ npm install
 # 環境変数の設定
 export ESA_ACCESS_TOKEN="your_esa_access_token"
 export ESA_TEAM="your_team_name"
+```
+
+### MCP設定例
+
+このMCPサーバーを使用する場合は、`mcp_config.json`ファイルに以下の設定を追加してください：
+
+```json
+"esa": {
+  "command": "npx",
+  "args": ["-y", "@kajirita2002/esa-mcp-server-auto-signature"],
+  "env": {
+    "ESA_ACCESS_TOKEN": "your_esa_access_token",
+    "ESA_TEAM": "your_team_name"
+  }
+}
 ```
 
 ### サーバーの起動
@@ -63,7 +85,7 @@ npm start
      - `include` (string, optional): レスポンスに含める関連データ (例: 'comments,stargazers')
 
 3. `esa_create_post`
-   - 新しい記事を作成します
+   - 新しい記事を作成します（自動的に「by esa-mcp-server」という署名が追加されます）
    - 入力:
      - `name` (string, required): 記事のタイトル
      - `body_md` (string, optional): 記事の本文 (Markdown形式)
@@ -135,7 +157,7 @@ npm start
 {
   "number": 123,
   "name": "プロジェクトXの進捗報告",
-  "body_md": "# 今週の進捗\n\n- 機能Aの実装完了\n- 機能Bのテスト開始\n\n## 次週の予定\n\n- 機能Cの実装開始",
+  "body_md": "# 今週の進捗\n\n- 機能Aの実装完了\n- 機能Bのテスト開始\n\n## 次週の予定\n\n- 機能Cの実装開始\n\n---\nby esa-mcp-server",
   "wip": false,
   "created_at": "2023-06-01T12:34:56+09:00",
   "updated_at": "2023-06-01T12:34:56+09:00",

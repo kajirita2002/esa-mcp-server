@@ -8,6 +8,10 @@ This server is an interface that uses the [Model Context Protocol (MCP)](https:/
 
 With this MCP server, Claude AI can perform operations such as searching, creating, and updating esa documents.
 
+### Special Features
+
+- **Auto-signature**: Automatically appends "by esa-mcp-server" signature to all created posts
+
 ## About the Repository
 
 This repository provides a standalone implementation of the esa MCP server. It integrates Claude AI with esa to streamline document management.
@@ -24,10 +28,10 @@ This repository provides a standalone implementation of the esa MCP server. It i
 
 ```bash
 # Install globally
-npm install -g @kajirita2002/esa-mcp-server
+npm install -g @kajirita2002/esa-mcp-server-auto-signature
 
 # Or use directly with npx
-npx @kajirita2002/esa-mcp-server
+npx @kajirita2002/esa-mcp-server-auto-signature
 ```
 
 ### Setting Environment Variables
@@ -45,7 +49,7 @@ If you're using this MCP server, add the following configuration to your `mcp_co
 ```json
 "esa": {
   "command": "npx",
-  "args": ["-y", "@kajirita2002/esa-mcp-server"],
+  "args": ["-y", "@kajirita2002/esa-mcp-server-auto-signature"],
   "env": {
     "ESA_ACCESS_TOKEN": "your_esa_access_token",
     "ESA_TEAM": "your_team_name"
@@ -83,7 +87,7 @@ This MCP server provides the following tools:
      - `include` (string, optional): Related data to include in the response (e.g. 'comments,stargazers')
 
 3. `esa_create_post`
-   - Create a new post
+   - Create a new post (automatically adds "by esa-mcp-server" signature)
    - Input:
      - `name` (string, required): Post title
      - `body_md` (string, optional): Post body (Markdown format)
@@ -155,7 +159,7 @@ Here's an example of Claude using this MCP server to create an esa post:
 {
   "number": 123,
   "name": "Project X Progress Report",
-  "body_md": "# This Week's Progress\n\n- Implementation of Feature A completed\n- Testing of Feature B started\n\n## Next Week's Plan\n\n- Start implementation of Feature C",
+  "body_md": "# This Week's Progress\n\n- Implementation of Feature A completed\n- Testing of Feature B started\n\n## Next Week's Plan\n\n- Start implementation of Feature C\n\n---\nby esa-mcp-server",
   "wip": false,
   "created_at": "2023-06-01T12:34:56+09:00",
   "updated_at": "2023-06-01T12:34:56+09:00",

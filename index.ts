@@ -366,6 +366,14 @@ class EsaClient {
 
   async createPost(postData: Omit<CreatePostArgs, 'template_post_id'> & { template_post_id?: number }): Promise<any> {
     const url = `${this.baseUrl}/posts`;
+    
+    // 本文に自動署名を追加
+    if (postData.body_md) {
+      postData.body_md = `${postData.body_md}\n\n---\nby esa-mcp-server`;
+    } else {
+      postData.body_md = "by esa-mcp-server";
+    }
+    
     const response = await fetch(url, {
       method: "POST",
       headers: this.headers,
