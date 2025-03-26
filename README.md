@@ -111,11 +111,6 @@ This MCP server provides the following tools:
      - `created_by` (string, optional): Poster's screen_name (only team owners can specify)
      - `original_revision` (string, optional): Revision to base the update on
 
-5. `esa_delete_post`
-   - Delete a post
-   - Input:
-     - `post_number` (number, required): Post number to delete
-
 ### Comment Related
 
 1. `esa_list_comments`

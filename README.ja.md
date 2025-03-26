@@ -87,11 +87,6 @@ npm start
      - `created_by` (string, optional): 投稿者のscreen_name (チームオーナーのみ指定可能)
      - `original_revision` (string, optional): 更新の基準となるリビジョン
 
-5. `esa_delete_post`
-   - 記事を削除します
-   - 入力:
-     - `post_number` (number, required): 削除する記事番号
-
 ### コメント関連
 
 1. `esa_list_comments`
