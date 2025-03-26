@@ -1,6 +1,6 @@
 {
   "name": "@kajirita2002/esa-mcp-server",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "MCP server for interacting with esa API",
   "license": "MIT",
   "author": "kajirita2002",
