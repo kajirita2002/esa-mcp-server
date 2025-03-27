@@ -1,5 +1,8 @@
 # esa MCP Server
 
+<img width="775" alt="スクリーンショット 2025-03-27 午後1 14 09" src="https://github.com/user-attachments/assets/e5f8f308-ed7a-4774-b3a3-9cc284ea7422" />
+
+
 *Read this in [Japanese](README.ja.md)*
 
 ## Overview
